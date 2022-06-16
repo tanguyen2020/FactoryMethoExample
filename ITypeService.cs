@@ -18,9 +18,6 @@ public class ContentTypeService : IContentTypeService
     }
     public ITypeService GetService(string resourceService)
     {
-        var source = string.Join("", resourceService.Split('-').Where(t => !t.IsNullOrEmpty())
-              .Select(t => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t.ToLower())));
-
         var nameTypeService = $"{this.GetType().Namespace}.{resourceService}";
         Type typeService = Type.GetType(nameTypeService);
         if (typeService == null) throw new Exception();
