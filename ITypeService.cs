@@ -5,7 +5,7 @@ public interface ITypeService
 
 public interface IContentTypeService
 {
-    ITypeService GetService(string resource);
+    ITypeService GetService(string resourceService);
 }
 
 
@@ -16,12 +16,12 @@ public class ContentTypeService : IContentTypeService
     {
         _serviceProvider = serviceProvider;
     }
-    public ITypeService GetService(string resource)
+    public ITypeService GetService(string resourceService)
     {
-        var source = string.Join("", resource.Split('-').Where(t => !t.IsNullOrEmpty())
+        var source = string.Join("", resourceService.Split('-').Where(t => !t.IsNullOrEmpty())
               .Select(t => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t.ToLower())));
 
-        var nameTypeService = $"{this.GetType().Namespace}.TypeService{source}";
+        var nameTypeService = $"{this.GetType().Namespace}.{resourceService}";
         Type typeService = Type.GetType(nameTypeService);
         if (typeService == null) throw new Exception();
 
